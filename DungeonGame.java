@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class DungeonGameQ6 {
+public class DungeonGameQ7 {
 
 	static 	List<List<Integer>> pillList = new ArrayList<>(); 
 	static Scanner sc = new Scanner(System.in);
@@ -25,6 +25,11 @@ public class DungeonGameQ6 {
 		int mJ = sc.nextInt();
 		sc.nextLine();
 		
+		System.out.println("Enter Trigger row and column!");
+		int tI = sc.nextInt();
+		int tJ = sc.nextInt();
+		sc.nextLine();
+		
 		System.out.println("Enter Gold row and column!");
 		int gI = sc.nextInt();
 		int gJ = sc.nextInt();
@@ -35,12 +40,15 @@ public class DungeonGameQ6 {
 		
 		getPills(nP);
 
-		int minSteps = getMinSteps(row, col, aI, aJ, gI, gJ, nP);
-		int monsMinStep = getMonsMinSteps(row, col, mI,  mJ, gI, gJ);
-		if(minSteps==-1||minSteps>monsMinStep) {
+		int advMinStepsToG = getMinSteps(row, col, aI, aJ, gI, gJ, nP);
+		int monsMinSteps = getMonsMinSteps(row, col, mI,  mJ, gI, gJ);
+		int advMinStepsToT = getMinSteps(row, col, aI, aJ, tI, tJ, nP);
+		int advMinSteps = advMinStepsToT<advMinStepsToG ? advMinStepsToT : advMinStepsToG;
+		if(advMinStepsToG==-1||advMinSteps>monsMinSteps) {
 			System.out.println("No possible solution");
 		}else {
-			System.out.println("Minimum number of steps: "+minSteps);
+			int trigToGold = getMinSteps(row, col, tI, tJ, gI, gJ, nP);
+			System.out.println("Minimum number of steps: "+(advMinSteps+trigToGold));
 		}
 		
 	}
@@ -89,7 +97,6 @@ public class DungeonGameQ6 {
 		return i;
 		
 	}
-	
 	
 	private static int getMinSteps(int row, int col, int aI, int aJ, int gI, int gJ, int nP) {
 		
