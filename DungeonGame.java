@@ -1,12 +1,10 @@
 package com.assessment;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Scanner;
 
-public class DungeonGameQ5 {
+public class DungeonGameQ6 {
 
 	static 	List<List<Integer>> pillList = new ArrayList<>(); 
 	static Scanner sc = new Scanner(System.in);
@@ -21,16 +19,25 @@ public class DungeonGameQ5 {
 		int aI = sc.nextInt();
 		int aJ = sc.nextInt();
 		sc.nextLine();
+		
+		System.out.println("Enter Monster row and column!");
+		int mI = sc.nextInt();
+		int mJ = sc.nextInt();
+		sc.nextLine();
+		
 		System.out.println("Enter Gold row and column!");
 		int gI = sc.nextInt();
 		int gJ = sc.nextInt();
+		sc.nextLine();
+		
 		System.out.println("Enter number of pills");
 		int nP = sc.nextInt();
 		
 		getPills(nP);
 
 		int minSteps = getMinSteps(row, col, aI, aJ, gI, gJ, nP);
-		if(minSteps==-1) {
+		int monsMinStep = getMonsMinSteps(row, col, mI,  mJ, gI, gJ);
+		if(minSteps==-1||minSteps>monsMinStep) {
 			System.out.println("No possible solution");
 		}else {
 			System.out.println("Minimum number of steps: "+minSteps);
@@ -50,6 +57,40 @@ public class DungeonGameQ5 {
 		
 	}
 
+	private static int getMonsMinSteps(int row, int col, int mI, int mJ, int gI, int gJ) {
+		// TODO Auto-generated method stub
+		int maxStep = row + col -1;
+		int i=0;
+		
+		int cI = mI;
+		int cJ = mJ;
+		
+		while(i<=maxStep) {
+			if(cI==gI&&cJ==gJ) {
+				break;
+			}else {
+				if(cJ==gJ) {
+					if(cI>gI) {
+						cI--;
+					}else {
+						cI++;
+					}
+					i++;
+				}
+				else if(cJ<gJ) {
+					cJ++;
+					i++;
+				}else {
+					cJ--;
+					i++;
+				}
+			}
+		}
+		return i;
+		
+	}
+	
+	
 	private static int getMinSteps(int row, int col, int aI, int aJ, int gI, int gJ, int nP) {
 		
 		int maxStep = row + col -1;
